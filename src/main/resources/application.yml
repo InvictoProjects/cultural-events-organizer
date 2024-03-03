@@ -1,6 +1,7 @@
 micronaut:
   application:
     name: culturalEventsOrganizer
+
 netty:
   default:
     allocator:
