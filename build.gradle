@@ -37,6 +37,8 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     compileOnly("org.graalvm.nativeimage:svm")
+
+    testImplementation("com.h2database:h2")
 }
 
 allOpen {
