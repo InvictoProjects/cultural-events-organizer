@@ -1,6 +1,8 @@
 package com.invictoprojects.utils
 
+import com.invictoprojects.dto.EventDto
 import com.invictoprojects.dto.UserDto
+import com.invictoprojects.model.Event
 import com.invictoprojects.model.User
 
 object MappingUtils {
@@ -12,6 +14,18 @@ object MappingUtils {
             email = userDto.email,
             firstName = userDto.firstName,
             lastName = userDto.lastName
+        )
+    }
+
+    fun convertToEntity(eventDto: EventDto): Event {
+        return Event(
+            name = eventDto.name,
+            description = eventDto.description,
+            startTime = eventDto.startTime,
+            endTime = eventDto.endTime,
+            eventType = eventDto.eventType,
+            location = eventDto.location,
+            url = eventDto.url
         )
     }
 
