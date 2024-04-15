@@ -11,7 +11,6 @@ import io.micronaut.http.annotation.*
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import jakarta.inject.Inject
-import io.micronaut.security.annotation.Secured
 
 @Controller("/api/events")
 @Secured(SecurityRule.IS_AUTHENTICATED)
