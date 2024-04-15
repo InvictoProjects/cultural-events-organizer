@@ -1,6 +1,5 @@
 package com.invictoprojects.model
 
-import com.invictoprojects.model.Role
 import javax.persistence.*
 
 
