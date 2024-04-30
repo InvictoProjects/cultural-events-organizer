@@ -10,7 +10,6 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import javax.transaction.Transactional
 
-
 @Singleton
 open class EventServiceImpl(
     @Inject private val eventRepository: EventRepository,

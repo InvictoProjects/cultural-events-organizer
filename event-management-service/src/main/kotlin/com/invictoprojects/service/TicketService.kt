@@ -12,6 +12,8 @@ interface TicketService {
 
     fun findUsersByEvent(event: Event): Set<User>
 
+    fun findByEventAndUser(event: Event, user: User): Ticket?
+
     fun deleteById(id: Long)
 
 }
