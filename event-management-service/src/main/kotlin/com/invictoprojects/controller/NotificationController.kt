@@ -6,11 +6,7 @@ import com.invictoprojects.model.NotificationType
 import com.invictoprojects.service.NotificationService
 import com.invictoprojects.utils.MappingUtils
 import io.micronaut.http.MediaType
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.QueryValue
+import io.micronaut.http.annotation.*
 import io.micronaut.http.sse.Event
 import io.micronaut.security.annotation.Secured
 import jakarta.inject.Inject

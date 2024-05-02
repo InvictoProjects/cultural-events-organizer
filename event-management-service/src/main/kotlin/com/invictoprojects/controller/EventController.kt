@@ -4,6 +4,7 @@ import com.invictoprojects.dto.EventDto
 import com.invictoprojects.dto.PurchaseRequest
 import com.invictoprojects.model.Event
 import com.invictoprojects.model.EventType
+import com.invictoprojects.service.EventCategoryService
 import com.invictoprojects.service.EventService
 import com.invictoprojects.service.TicketService
 import com.invictoprojects.service.UserService
@@ -118,3 +119,4 @@ class EventController(
     }
 
 }
+
