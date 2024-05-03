@@ -1,8 +1,8 @@
 package com.invictoprojects.service.impl
 
-import com.invictoprojects.model.Event
-import com.invictoprojects.model.NotificationType
+import com.invictoprojects.model.*
 import com.invictoprojects.repository.EventRepository
+import com.invictoprojects.service.EventFeedbackService
 import com.invictoprojects.service.EventService
 import com.invictoprojects.service.NotificationService
 import com.invictoprojects.service.TicketService
@@ -15,7 +15,8 @@ import javax.transaction.Transactional
 open class EventServiceImpl(
     @Inject private val eventRepository: EventRepository,
     @Inject private val ticketService: TicketService,
-    @Inject private val notificationService: NotificationService
+    @Inject private val notificationService: NotificationService,
+    @Inject private val feedbackService: EventFeedbackService
 ) : EventService {
 
     override fun create(event: Event): Event {
@@ -47,6 +48,27 @@ open class EventServiceImpl(
         return eventRepository.searchByStartTimeBetween(dateFrom, dateTo, categories)
     }
 
+    override fun getEventAnalytics(event: Event): EventAnalytics {
+        return EventAnalytics(
+            activeTickets = ticketService.countByStatusAndEventId(TicketStatus.ACTIVE, event.id!!),
+            canceledTickets = ticketService.countByStatusAndEventId(TicketStatus.CANCELED, event.id!!),
+            feedbacks = feedbackService.countEventIdWithNonEmptyFeedback(event.id!!),
+            avrRate = feedbackService.getAvgRateByEventId(event.id!!)
+        )
+    }
+
+    override fun getEventsAnalytics(dateFrom: LocalDateTime?, dateTo: LocalDateTime?): List<EventAnalyticsEnvelope> {
+        return searchEvents(null, null, dateFrom, dateTo)
+            .filter { event -> event.endTime < LocalDateTime.now() }
+            .map {
+                EventAnalyticsEnvelope(
+                    event = it,
+                    category = it.category,
+                    eventAnalytics = getEventAnalytics(it)
+                )
+            }
+    }
+
     override fun existById(id: Long): Boolean {
         return eventRepository.existsById(id)
     }
@@ -56,3 +78,4 @@ open class EventServiceImpl(
     }
 
 }
+
