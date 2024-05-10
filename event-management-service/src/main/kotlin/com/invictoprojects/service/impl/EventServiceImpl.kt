@@ -2,13 +2,11 @@ package com.invictoprojects.service.impl
 
 import com.invictoprojects.model.*
 import com.invictoprojects.repository.EventRepository
-import com.invictoprojects.service.EventFeedbackService
-import com.invictoprojects.service.EventService
-import com.invictoprojects.service.NotificationService
-import com.invictoprojects.service.TicketService
+import com.invictoprojects.service.*
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.time.LocalDateTime
+import java.util.Collections
 import javax.transaction.Transactional
 
 @Singleton
@@ -16,7 +14,9 @@ open class EventServiceImpl(
     @Inject private val eventRepository: EventRepository,
     @Inject private val ticketService: TicketService,
     @Inject private val notificationService: NotificationService,
-    @Inject private val feedbackService: EventFeedbackService
+    @Inject private val feedbackService: EventFeedbackService,
+    @Inject private val userService: UserService,
+    @Inject private val waitListService: WaitListService
 ) : EventService {
 
     override fun create(event: Event): Event {
@@ -69,6 +69,30 @@ open class EventServiceImpl(
             }
     }
 
+    override fun getAttendedEvent(username: String): List<Event> {
+        val user = userService.findByUsername(username)
+        if (user != null) {
+            return ticketService.findPurchasedTicketsByUserId(user.id!!)
+                .filter { ticket -> TicketStatus.ACTIVE == ticket.status }
+                .filter { ticket -> ticket.event.endTime < LocalDateTime.now() }
+                .map { t -> t.event }
+                .distinct()
+        }
+        return Collections.emptyList()
+    }
+
+    override fun waitForEventTickets(eventId: Long, username: String) {
+        val user = userService.findByUsername(username)
+        val event = eventRepository.findById(eventId)
+        waitListService.create(event.get(), user!!)
+    }
+
+    override fun unWaitForEventTickets(eventId: Long, username: String) {
+        val user = userService.findByUsername(username)
+        val event = eventRepository.findById(eventId)
+        waitListService.deleteByEventAndUser(event.get(), user!!)
+    }
+
     override fun existById(id: Long): Boolean {
         return eventRepository.existsById(id)
     }
@@ -78,4 +102,3 @@ open class EventServiceImpl(
     }
 
 }
-
