@@ -3,9 +3,12 @@ package com.invictoprojects.controller
 import com.invictoprojects.model.Event
 import com.invictoprojects.repository.EventRepository
 import io.micronaut.http.annotation.*
+import io.micronaut.security.rules.SecurityRule
 import jakarta.inject.Inject
+import io.micronaut.security.annotation.Secured
 
 @Controller("/events")
+@Secured(SecurityRule.IS_AUTHENTICATED)
 class EventController(@Inject private val repository: EventRepository) {
 
     @Post
