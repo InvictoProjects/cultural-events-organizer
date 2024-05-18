@@ -37,6 +37,10 @@ class TicketServiceImpl(
             .collect(Collectors.toSet())
     }
 
+    override fun findByEventAndUser(event: Event, user: User): Ticket? {
+        return ticketRepository.findByEventAndUser(event, user)
+    }
+
     override fun deleteById(id: Long) {
         ticketRepository.deleteById(id)
     }
