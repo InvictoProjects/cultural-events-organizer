@@ -4,10 +4,12 @@ import com.invictoprojects.dto.EventDto
 import com.invictoprojects.dto.PurchaseRequest
 import com.invictoprojects.model.Event
 import com.invictoprojects.model.EventType
+import com.invictoprojects.service.EventCategoryService
 import com.invictoprojects.service.EventService
 import com.invictoprojects.service.TicketService
 import com.invictoprojects.service.UserService
 import com.invictoprojects.utils.MappingUtils
+import io.micronaut.core.convert.format.Format
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
@@ -15,6 +17,7 @@ import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import jakarta.inject.Inject
 import java.security.Principal
+import java.time.LocalDateTime
 
 @Controller("/api/events")
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -22,6 +25,7 @@ class EventController(
     @Inject private val eventService: EventService,
     @Inject private val ticketService: TicketService,
     @Inject private val userService: UserService,
+    @Inject private val eventCategoryService: EventCategoryService
 ) {
 
     @Post
@@ -41,7 +45,11 @@ class EventController(
             if (EventType.OFFLINE == eventDto.eventType && eventDto.location == null) {
                 throw IllegalArgumentException("Location must be filled for offline event")
             }
-            val event = MappingUtils.convertToEntity(eventDto)
+            val category = eventCategoryService.findByName(eventDto.category)
+            if (category == null) {
+                throw IllegalArgumentException("No such category")
+            }
+            val event = MappingUtils.convertToEntity(eventDto, category)
             return HttpResponse.created(eventService.create(event))
         }
         return HttpResponse.badRequest()
@@ -54,7 +62,11 @@ class EventController(
         if (!eventService.existById(id)) {
             throw IllegalArgumentException("No event with a such id")
         }
-        val event = MappingUtils.convertToEntity(eventDto)
+        val category = eventCategoryService.findByName(eventDto.category)
+        if (category == null) {
+            throw IllegalArgumentException("No such category")
+        }
+        val event = MappingUtils.convertToEntity(eventDto, category)
         event.id = id
         return eventService.update(event)
     }
@@ -69,18 +81,17 @@ class EventController(
     @Secured("USER")
     fun findAll(): MutableIterable<Event> = eventService.findAll()
 
-    @Get("/search{?keywords}")
+    @Get("/search")
     @Secured("USER")
-    fun searchEvents(keywords: List<String>?): MutableIterable<Event> {
-        return if (keywords != null) {
-            eventService.searchEventsByKeywords(keywords)
-        } else {
-            eventService.findAll()
-        }
+    fun searchEvents(@QueryValue @Format("yyyy-MM-dd'T'HH:mm:ss'Z'") dateFrom: LocalDateTime?,
+                     @QueryValue @Format("yyyy-MM-dd'T'HH:mm:ss'Z'") dateTo: LocalDateTime?,
+                     @QueryValue keywords: List<String>?,
+                     @QueryValue categories: List<String>?): MutableIterable<Event> {
+        return eventService.searchEvents(keywords, categories, dateFrom, dateTo)
     }
 
     @Delete("/{id}")
-    @Secured("USER","ADMIN")
+    @Secured("USER", "ADMIN")
     fun deleteById(id: Long): HttpResponse<Any> {
         //todo: delete tickets also
         eventService.deleteById(id)
@@ -108,3 +119,4 @@ class EventController(
     }
 
 }
+

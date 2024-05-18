@@ -1,13 +1,7 @@
 package com.invictoprojects.utils
 
-import com.invictoprojects.dto.EventDto
-import com.invictoprojects.dto.EventFeedbackDto
-import com.invictoprojects.dto.NotificationDto
-import com.invictoprojects.dto.UserDto
-import com.invictoprojects.model.Event
-import com.invictoprojects.model.EventFeedback
-import com.invictoprojects.model.Notification
-import com.invictoprojects.model.User
+import com.invictoprojects.dto.*
+import com.invictoprojects.model.*
 
 object MappingUtils {
 
@@ -21,7 +15,7 @@ object MappingUtils {
         )
     }
 
-    fun convertToEntity(eventDto: EventDto): Event {
+    fun convertToEntity(eventDto: EventDto, category: EventCategory): Event {
         return Event(
             name = eventDto.name,
             description = eventDto.description,
@@ -29,7 +23,8 @@ object MappingUtils {
             endTime = eventDto.endTime,
             eventType = eventDto.eventType,
             location = eventDto.location,
-            url = eventDto.url
+            url = eventDto.url,
+            category = category
         )
     }
 
@@ -39,6 +34,13 @@ object MappingUtils {
             user = user,
             rate = eventFeedbackDto.rate,
             feedback = eventFeedbackDto.feedback
+        )
+    }
+
+    fun convertToEntity(eventCategoryDto: EventCategoryDto): EventCategory {
+        return EventCategory(
+            name = eventCategoryDto.name,
+            description = eventCategoryDto.description
         )
     }
 
