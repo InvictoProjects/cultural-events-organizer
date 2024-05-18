@@ -15,7 +15,7 @@ object MappingUtils {
         )
     }
 
-    fun convertToEntity(eventDto: EventDto, category: EventCategory): Event {
+    fun convertToEntity(eventDto: EventDto, category: EventCategory, user: User): Event {
         return Event(
             name = eventDto.name,
             description = eventDto.description,
@@ -24,7 +24,8 @@ object MappingUtils {
             eventType = eventDto.eventType,
             location = eventDto.location,
             url = eventDto.url,
-            category = category
+            category = category,
+            creator = user
         )
     }
 
