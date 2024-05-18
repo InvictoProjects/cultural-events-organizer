@@ -1,5 +1,6 @@
 package com.invictoprojects.service.impl
 
+import com.invictoprojects.model.Role
 import com.invictoprojects.model.User
 import com.invictoprojects.security.CustomPasswordEncoder
 import com.invictoprojects.service.AuthenticationService
@@ -15,6 +16,7 @@ class AuthenticationServiceImpl(
 
     override fun signUp(user: User) {
         user.passwordHash = customPasswordEncoder.encode(user.passwordHash)
+        user.role = Role.USER
         userService.create(user)
     }
 
