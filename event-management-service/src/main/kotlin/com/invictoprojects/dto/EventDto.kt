@@ -30,12 +30,14 @@ data class EventDto(
 
     val location: String?,
 
-    @PositiveOrZero
-    val price: Double,
-
     val isTicketsLimited: Boolean,
 
     val maxTickets: Long? = null,
+
+    @PositiveOrZero
+    val price: Double,
+
+    val isPrivate: Boolean = false,
 
     val url: String?
 )
