@@ -20,6 +20,7 @@ dependencies {
     kapt("io.micronaut:micronaut-http-validation")
     kapt("io.micronaut.security:micronaut-security-annotations")
 
+    implementation("software.amazon.awssdk:sqs")
     implementation platform("software.amazon.awssdk:bom")
     implementation("software.amazon.awssdk:s3")
     implementation("io.micronaut:micronaut-http-client")
