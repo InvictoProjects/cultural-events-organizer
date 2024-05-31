@@ -1,7 +1,9 @@
-# cultural-events-organizer
-Cultural Events Organization REST API
+# Cultural Events Organizer
 
+[![Kotlin CI with Gradle](https://github.com/InvictoProjects/cultural-events-organizer/actions/workflows/main.yml/badge.svg)](https://github.com/InvictoProjects/cultural-events-organizer/actions/workflows/main.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=InvictoProjects_cultural-events-organizer&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=InvictoProjects_cultural-events-organizer)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
 ## Relevance
 The "Cultural Events Organizer" is highly relevant in today's interconnected world, where managing and participating in cultural events efficiently is crucial. This platform provides a structured and user-friendly approach to organizing, searching, and participating in cultural events, making cultural experiences more accessible and enjoyable.
@@ -22,20 +24,21 @@ The project was developed using the SpringBoot ecosystem, including Spring REST 
 ## Built with
 #### Back-end
 * Kotlin
-* Gradle - Dependency Management
-* Postgres - Database System
 * Micronaut Ecosystem
-* Docker - containerization
-* AWS - infrastructure
-* Terraform - infrastructure as code
+* Gradle - Dependency Management
+#### Infrastructure
+* PostgreSQL - Database System
+* Docker - Container Builder
+* AWS - Cloud Provider
+* Terraform - Infrastructure as Code
 #### Dev dependencies
 * JUnit - Testing Framework
 * Mockito - Mocking Framework
+* SonarCloud - Linter
 
 ## Help
 
-If you have any questions, create an issue and start a discussion
-[github](https://github.com/InvictoProjects/cultural-events-organizer/issues).
+If you have any questions, [create a new issue](https://github.com/InvictoProjects/cultural-events-organizer/issues/new/choose) and start a discussion.
 
 ## License
 This project is [GNU General Public](https://www.gnu.org/licenses/gpl-3.0) licensed.
