@@ -22,10 +22,10 @@ import java.time.LocalDateTime
 @Controller("/api/events")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 class EventController(
-    @Inject private val eventService: EventService,
-    @Inject private val ticketService: TicketService,
-    @Inject private val userService: UserService,
-    @Inject private val eventCategoryService: EventCategoryService
+        @Inject private val eventService: EventService,
+        @Inject private val ticketService: TicketService,
+        @Inject private val userService: UserService,
+        @Inject private val eventCategoryService: EventCategoryService
 ) {
 
     @Post
@@ -113,7 +113,7 @@ class EventController(
             if (user.blocked) {
                 return HttpResponse.status(HttpStatus.FORBIDDEN)
             }
-            ticketService.purchaseTickets(event, user, amount)
+            ticketService.purchaseTickets(event, user, amount, purchaseRequest.isUnSubscribeFromWaitingList)
             return HttpResponse.ok()
         }
         return HttpResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
