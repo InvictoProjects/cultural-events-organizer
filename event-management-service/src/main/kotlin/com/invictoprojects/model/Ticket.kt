@@ -21,6 +21,9 @@ class Ticket(
     @Column(nullable = false)
     var status: TicketStatus,
 
+    @Column(nullable = false)
+    val price: Double,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null

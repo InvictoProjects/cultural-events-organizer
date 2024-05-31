@@ -1,13 +1,10 @@
 package com.invictoprojects.service
 
-import com.invictoprojects.model.Event
-import com.invictoprojects.model.Ticket
-import com.invictoprojects.model.TicketStatus
-import com.invictoprojects.model.User
+import com.invictoprojects.model.*
 
 interface TicketService {
 
-    fun purchaseTickets(event: Event, user: User, amount: Long, isUnSubscribeFromWaitingList: Boolean)
+    fun purchaseTickets(event: Event, user: User, amount: Long, discountCode: DiscountCode?, isUnSubscribeFromWaitingList: Boolean)
 
     fun findPurchasedTicketsByUserId(userId: Long) : MutableIterable<Ticket>
 
