@@ -52,6 +52,8 @@ aws:
   region: "eu-central-1"
   s3:
     bucket-name: "events-media-kjhkjhkjhkjhkjhkjh"
+  sqs:
+    name: ${QUEUE_URL}
 
 netty:
   default:
